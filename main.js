@@ -66,8 +66,10 @@ function handleSymbol(value){
         case '←':
             if(buffer.length === 1){
                 buffer = "0";
+                break;
             }else{
                 buffer = buffer.substring(0, buffer.length - 1);
+                break;
             }
         case '+':   
         case '-':
