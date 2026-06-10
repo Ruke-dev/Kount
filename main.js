@@ -26,6 +26,7 @@ function handleMath(value){
     }
 
     const intBuffer = parseInt(buffer);
+    buffer = intBuffer + value;
 
     if(runningTotal === 0){
         runningTotal = intBuffer;
@@ -34,7 +35,6 @@ function handleMath(value){
     }
 
     previousOperator = value;
-    buffer = "0";
 }
 
 function flushOperation(intBuffer){
