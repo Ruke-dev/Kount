@@ -1,6 +1,7 @@
 let buffer = "0";
 let runningTotal = 0;
 let previousOperator;
+let display = "0";
 const screen = document.querySelector('.screen');
 
 function buttonClick(value){
@@ -18,6 +19,7 @@ function handleNumber(number){
     }else{
         buffer += number;
     }
+    display = display === "0" ? number : display + number;
 }
 
 function handleMath(value){
@@ -26,7 +28,6 @@ function handleMath(value){
     }
 
     const intBuffer = parseInt(buffer);
-    buffer = intBuffer + value;
 
     if(runningTotal === 0){
         runningTotal = intBuffer;
@@ -35,6 +36,8 @@ function handleMath(value){
     }
 
     previousOperator = value;
+    display += value;
+    buffer = "0";
 }
 
 function flushOperation(intBuffer){
@@ -52,7 +55,10 @@ function flushOperation(intBuffer){
 function handleSymbol(value){
     switch (value) {
         case 'C':
+            display = "0";
+            runningTotal = 0;
             buffer = "0";
+            previousOperator = null;
             break;
         case '=':
             if(previousOperator === null){
@@ -60,17 +66,16 @@ function handleSymbol(value){
             }
             flushOperation(parseInt(buffer));
             previousOperator = null;
-            buffer = "" + runningTotal;
+            display = "" + runningTotal;
             runningTotal = 0;
             break;
         case '←':
-            if(buffer.length === 1){
-                buffer = "0";
-                break;
+            if(display.length === 1){
+                display = "0";
             }else{
-                buffer = buffer.substring(0, buffer.length - 1);
-                break;
+                display = display.substring(0, display.length - 1);
             }
+            break;
         case '+':   
         case '-':
         case 'x':
@@ -87,7 +92,7 @@ function init(){
 }
 
 function rerender(){
-    screen.innerText = buffer;
+    screen.innerText = display;
 }
 
 init();
